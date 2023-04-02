@@ -140,7 +140,7 @@ class Mirex:
 
         self._is_currently_evicting = True
         while self.is_consuming:
-            item: str = await self._cache_queue.get()
+            item: str = await self._eviction_queue.get()
             await self.redis_instance.delete(item)  # noqa
 
         self._is_currently_evicting = False

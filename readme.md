@@ -33,6 +33,7 @@ async def main():
         redis_instance=redis,
         connection_state=bot._connection,
     )
+    mirex.inject_hooks()
     asyncio.create_task(mirex.consume_queue())
     asyncio.create_task(mirex.consume_eviction())
 

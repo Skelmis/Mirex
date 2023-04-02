@@ -20,7 +20,7 @@ def guild_as_dict(guild: Guild) -> Dict:
         "icon": guild._icon,
         "description": guild.description,
         "home_header": None,  # TODO this field doesnt exist yet in disnake
-        "splash": guild.splash,
+        "splash": guild._splash,
         "discovery_splash": guild._discovery_splash,
         "features": guild.features,
         "approximate_member_count": guild.approximate_member_count,
