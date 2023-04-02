@@ -10,6 +10,7 @@ Providing a distributed caching solution for Python discord bots.
    :caption: Contents:
 
    modules/main.rst
+   modules/serializers.rst
 
 
 
