@@ -11,6 +11,7 @@ if TYPE_CHECKING:
 
 
 def guild_as_dict(guild: Guild) -> Dict:
+    """Serialize Guild objects."""
     if guild.unavailable:
         return {"unavailable": True, "id": str(guild.id)}
 

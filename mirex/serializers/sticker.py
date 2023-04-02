@@ -7,6 +7,7 @@ if TYPE_CHECKING:
 
 
 def sticker_as_dict(sticker: Union[Sticker, GuildSticker, StandardSticker]) -> Dict:
+    """Serialize Union[Sticker, GuildSticker, StandardSticker] objects."""
     return {
         "id": str(sticker.id),
         "name": sticker.name,

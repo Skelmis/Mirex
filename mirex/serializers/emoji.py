@@ -7,6 +7,7 @@ if TYPE_CHECKING:
 
 
 def emoji_as_dict(emoji: Emoji) -> Dict:
+    """Serialize Emoji objects."""
     return {
         "name": emoji.name,
         "roles": [],  # TODO This field

@@ -7,6 +7,7 @@ if TYPE_CHECKING:
 
 
 def role_as_dict(role: Role) -> Dict:
+    """Serialize Role objects."""
     return {
         "id": str(role.id),
         "name": role.name,
