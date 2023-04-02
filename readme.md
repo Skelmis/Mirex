@@ -23,26 +23,31 @@ from redis import asyncio as aioredis
 
 from mirex import Mirex
 
-bot = commands.InteractionBot(intents=disnake.Intents.all())
 
-redis = aioredis.from_url("redis://127.0.0.1:6379")
-mirex = Mirex(
-    namespace=disnake,
-    redis_instance=redis,
-    connection_state=bot._connection,
-)
+async def main():
+    bot = commands.InteractionBot(intents=disnake.Intents.all())
 
-
-@bot.event
-async def on_ready():
+    redis = aioredis.from_url("redis://127.0.0.1:6379")
+    mirex = Mirex(
+        namespace=disnake,
+        redis_instance=redis,
+        connection_state=bot._connection,
+    )
     asyncio.create_task(mirex.consume_queue())
-    guild_id = ...
-    g = await bot.fetch_guild(guild_id)
-    mirex.add_to_cache(g)
-    guild: disnake.Guild = await mirex.aget_guild(guild_id)
-    assert guild == g
-    print("Done")
+    asyncio.create_task(mirex.consume_eviction())
+
+    @bot.event
+    async def on_ready():
+        guild_id = ...
+        g = await bot.fetch_guild(guild_id)
+        mirex.add_to_cache(g)
+        guild: disnake.Guild = await mirex.aget_guild(guild_id)
+        assert guild == g
+        print("Done")
+
+    await bot.start(os.environ["TOKEN"])
 
 
-bot.run(os.environ["TOKEN"])
+asyncio.run(main())
+
 ```
