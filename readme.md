@@ -36,9 +36,10 @@ mirex = Mirex(
 @bot.event
 async def on_ready():
     asyncio.create_task(mirex.consume_queue())
-    g = await bot.fetch_guild(...)
+    guild_id = ...
+    g = await bot.fetch_guild(guild_id)
     mirex.add_to_cache(g)
-    guild: disnake.Guild = await mirex.aget_guild(...)
+    guild: disnake.Guild = await mirex.aget_guild(guild_id)
     assert guild == g
     print("Done")
 
