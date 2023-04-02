@@ -15,6 +15,19 @@ log = logging.getLogger(__name__)
 
 class Mirex:
     def __init__(self, *, redis_instance: aioredis.Redis, namespace, connection_state):
+        """
+
+        Parameters
+        ----------
+        redis_instance: aioredis.Redis
+            Your redis instance
+        namespace
+            The variable namespace for your library.
+            This will generally be `import disnake` - `namespace=disnake`
+        connection_state
+            Your bots connection state.
+            `bot._connection`
+        """
         self.is_consuming: bool = True
         self._cache_queue: asyncio.Queue = asyncio.Queue()
         self._eviction_queue: asyncio.Queue = asyncio.Queue()
@@ -146,9 +159,35 @@ class Mirex:
         self._is_currently_evicting = False
 
     async def aget_guild(self, guild_id: int) -> Optional[Any]:
+        """Return a Guild instance from cache.
+
+        Parameters
+        ----------
+        guild_id: int
+            The guilds id
+
+        Returns
+        -------
+        Optional[Guild]
+            The guild if found.
+        """
         return await self.aget_class(f"GUILD:{guild_id}", self._namespace.Guild)
 
     async def aget_class(self, key, mapping: Type[T]) -> Optional[T]:
+        """Internal helper method that all aget_* methods use.
+
+        Parameters
+        ----------
+        key: str
+            The key to fetch
+        mapping
+            The class we want to return an instance of
+
+        Returns
+        -------
+        Optional[T]
+            The class, if data was found in redis
+        """
         self._preflight_checks()
         raw_data = await self.redis_instance.get(key)
         if raw_data is None:
